@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
-
+#include <stdlib.h> 
 
 #define ID_EDIT_1 1
 #define ID_EDIT_2 2
@@ -17,6 +17,7 @@ void DoCalculation(HWND hwnd, int operation) {
     GetWindowText(hEdit1, str1, 100);
     GetWindowText(hEdit2, str2, 100);
 
+  
     double n1 = atof(str1);
     double n2 = atof(str2);
     double res = 0;
@@ -35,6 +36,7 @@ void DoCalculation(HWND hwnd, int operation) {
             break;
     }
 
+  
     sprintf(buffer, "%g", res); 
     MessageBox(hwnd, buffer, "Result", MB_OK);
 }
@@ -42,16 +44,13 @@ void DoCalculation(HWND hwnd, int operation) {
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
     switch(Message) {
         case WM_CREATE: {
-          
             CreateWindow("STATIC", "Please input two numbers", WS_VISIBLE | WS_CHILD | SS_CENTER, 
                          25, 10, 200, 20, hwnd, NULL, NULL, NULL);
 
-         
-            hEdit1 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_NUMBER, 
+            hEdit1 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER, 
                                   50, 40, 150, 25, hwnd, (HMENU)ID_EDIT_1, NULL, NULL);
             
-         
-            hEdit2 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_NUMBER, 
+            hEdit2 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER, 
                                   50, 75, 150, 25, hwnd, (HMENU)ID_EDIT_2, NULL, NULL);
 
             CreateWindow("BUTTON", "+", WS_VISIBLE | WS_CHILD, 65, 115, 25, 25, hwnd, (HMENU)ID_BTN_ADD, NULL, NULL);
@@ -91,6 +90,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hInstance     = hInstance;
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     
+    // สีพื้นหลังชมพูเข้มตามโค้ดเดิมของคุณ
     wc.hbrBackground = CreateSolidBrush(RGB(210, 15, 110)); 
     wc.lpszClassName = "WindowClass";
     wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
@@ -100,7 +100,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         MessageBox(NULL, "Window Registration Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
-
 
     hwnd = CreateWindowEx(0, "WindowClass", "My Calculator", 
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE,
